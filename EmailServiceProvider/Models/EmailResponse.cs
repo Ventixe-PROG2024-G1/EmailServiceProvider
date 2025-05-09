@@ -1,12 +1,12 @@
 ﻿namespace EmailServiceProvider.Models
 {
-    public class EmailServiceResult
+    public class EmailResponse
     {
         public bool Succeeded { get; set; }
         public string? Error { get; set; }
     }
 
-    public class EmailServiceResult<T> : EmailServiceResult
+    public class EmailServiceResult<T> : EmailResponse
     {
         public T? Result { get; set; }
     }

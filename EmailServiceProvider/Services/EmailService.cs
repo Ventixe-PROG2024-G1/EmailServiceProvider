@@ -7,8 +7,13 @@ using Microsoft.Extensions.Options;
 
 namespace EmailServiceProvider.Services
 {
+    public interface IEmailService
+    {
+        Task<EmailResponse> SendEmail(EmailMessageRequest request, ServerCallContext context);
+    }
+
     public class EmailService(EmailClient client, IOptions<AzureCommunicationSettings> options)
-     : EmailContract.EmailContractBase
+         : EmailContract.EmailContractBase, IEmailService
     {
         private readonly EmailClient _client = client;
         private readonly AzureCommunicationSettings _settings = options.Value;

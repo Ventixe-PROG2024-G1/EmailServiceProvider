@@ -7,24 +7,26 @@ using Microsoft.Extensions.Options;
 
 namespace EmailServiceProvider.Services
 {
-    public interface IEmailService
+    public class EmailService
     {
-        Task<EmailResponse> SendEmail(EmailMessageRequest request, ServerCallContext context);
-    }
+        private readonly IConfiguration _configuration;
+        private readonly EmailClient _client;
 
-    public class EmailService(EmailClient client, IOptions<AzureCommunicationSettings> options)
-         : EmailContract.EmailContractBase, IEmailService
-    {
-        private readonly EmailClient _client = client;
-        private readonly AzureCommunicationSettings _settings = options.Value;
-
-        public override async Task<EmailResponse> SendEmail(EmailMessageRequest request, ServerCallContext context)
+        public EmailService(IConfiguration configuration)
         {
+            _configuration = configuration;
+            _client = new EmailClient(_configuration["ACS:Connectionstring"]);
+        }
+
+        public async Task<EmailResponse> SendAsync(EmailMessageRequest request)
+        {
+            var senderAddress = _configuration["ACS:SenderAddress"];
+
             try
             {
                 var recipients = request.Recipients.Select(email => new EmailAddress(email)).ToList();
                 var emailMessage = new EmailMessage(
-                    senderAddress: _settings.SenderAddress,
+                    senderAddress: senderAddress,
                     content: new EmailContent(request.Subject)
                     {
                         PlainText = request.PlainText,

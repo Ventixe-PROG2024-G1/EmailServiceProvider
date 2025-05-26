@@ -1,4 +1,5 @@
 ﻿using Azure.Messaging.ServiceBus;
+using EmailServiceProvider.DTOs;
 using Microsoft.Azure.Amqp.Framing;
 using Newtonsoft.Json;
 
@@ -24,7 +25,7 @@ public class QueueService
         _processor.ProcessMessageAsync += async args =>
         {
             var body = args.Message.Body.ToString();
-            var request = JsonConvert.DeserializeObject<EmailMessageRequest>(body);
+            var request = JsonConvert.DeserializeObject<EmailMessageDTO>(body);
 
             var result = await _emailService.SendAsync(request);
             if (result.Succeeded)

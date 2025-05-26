@@ -18,7 +18,7 @@ namespace EmailServiceProvider.Services
             _client = new EmailClient(_configuration["ACS:Connectionstring"]);
         }
 
-        public async Task<EmailResponse> SendAsync(EmailMessageRequest request)
+        public async Task<EmailResponse> SendAsync(EmailMessageDTO request)
         {
             var senderAddress = _configuration["ACS:SenderAddress"];
 

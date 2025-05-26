@@ -6,7 +6,7 @@ using EmailServiceProvider.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddGrpc();
+//builder.Services.AddGrpc();
 builder.Services.AddOpenApi();
 
 // Konfigurera Azure Communication Service
@@ -18,7 +18,7 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 // Starta bakgrundstjänst för att hantera meddelanden från kön
 using (var scope = app.Services.CreateScope())
 {

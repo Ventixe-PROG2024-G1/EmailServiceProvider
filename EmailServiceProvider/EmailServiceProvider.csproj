@@ -18,8 +18,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 	
-<ItemGroup>
+<!--<ItemGroup>
 	<Protobuf Include="Protos/email.proto" GrpcServices="Server" />
-</ItemGroup>
+</ItemGroup>-->
 
 </Project>
